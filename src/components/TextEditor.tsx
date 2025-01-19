@@ -34,7 +34,7 @@ export default function TextEditor(props: JSX.HTMLAttributes<HTMLDivElement>) {
       contentEditable
       // suppressContentEditableWarning
       onInput={handleInput}
-      class={containerClass + contentClass + className}
+      class={`${containerClass} ${contentClass} ${className}`}
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );
