@@ -9,7 +9,7 @@ export default defineConfig({
 				enabled: true,
 				renderTarget: '#app',
 				additionalPrerenderRoutes: ['/404'],
-				previewMiddlewareEnabled: true,
+				// previewMiddlewareEnabled: true,
 				previewMiddlewareFallback: '/404',
 			},
 		}),
