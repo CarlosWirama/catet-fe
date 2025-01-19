@@ -1,5 +1,6 @@
 import { type JSX } from "preact";
 import { useState, useEffect, useRef } from "preact/hooks";
+import { sanitizeContent } from "./helpers";
 
 export default function TextEditor(props: JSX.HTMLAttributes<HTMLDivElement>) {
   const className = props.className ?? props.class ?? "";
@@ -21,7 +22,8 @@ export default function TextEditor(props: JSX.HTMLAttributes<HTMLDivElement>) {
   // Handle input changes
   const handleInput = () => {
     if (editorRef.current) {
-      setContent(editorRef.current.innerHTML);
+      const content = sanitizeContent(editorRef.current.innerHTML);
+      setContent(content);
     }
   };
 
