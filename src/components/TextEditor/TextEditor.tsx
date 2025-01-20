@@ -56,14 +56,14 @@ export default function TextEditor({
         dangerouslySetInnerHTML={{ __html: content }}
         autofocus
       />
-      <button
+      {/* <button
         onClick={handleAddNote}
         role="button"
         type="button"
         class="my-5 rounded p-4 bg-emerald-600 hover:bg-emerald-500 transition-all text-xl"
       >
         Note
-      </button>
+      </button> */}
     </>
   );
 }

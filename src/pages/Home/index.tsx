@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useCallback } from "preact/hooks";
 import Header from "../../components/Header";
 import NoteList from "../../components/NoteList";
 import TextEditor from "../../components/TextEditor";
@@ -17,12 +17,13 @@ export default function Home() {
     ]);
   }, []);
 
-  function handleSaveNote(newNote: Note) {
+  const handleSaveNote = useCallback((newNote: Note) => {
     setNotes(notes => [newNote, ...notes]);
-  }
+  }, []);
+
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main class="m-5 flex-grow flex flex-col overflow-auto">
         {/* <img src={preactLogo} alt="Preact logo" height="160" width="160" /> */}
       	{/* <Toolbar /> */}
@@ -31,7 +32,7 @@ export default function Home() {
           onSaveNote={handleSaveNote}
           class="flex-auto min-h-min"
         />
-      	<NoteList notes={notes} class="min-h-10" />
+      	{/* <NoteList notes={notes} class="min-h-10" /> */}
       </main>
     </>
   );
