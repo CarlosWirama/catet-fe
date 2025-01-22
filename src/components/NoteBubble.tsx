@@ -1,5 +1,5 @@
 import { type JSX } from "preact";
-import type { Note } from "../../types/note";
+import type { Note } from "../types/note";
 
 export default function NoteBubble({
   content,

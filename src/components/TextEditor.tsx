@@ -1,12 +1,19 @@
 import { type JSX } from "preact";
 import { useState, useEffect, useRef, useCallback } from "preact/hooks";
-import { sanitizeContent } from "./helpers";
-import type { Note } from "../../types/note";
+import type { Note } from "../types/note";
 
 type TextEditorProps = JSX.HTMLAttributes<HTMLDivElement> & {
   isEditing: boolean;
   onSaveNote: (newNote: Partial<Note>) => void;
 };
+
+function sanitizeContent(html: string) {
+  // Keep allowed tags and replace disallowed tags with div
+  const allowedTags = /<\/?(b|i|u|strong|em|p|br|ul|ol|li|div)[^>]*>/gi;
+  return html.replace(/<[^>]+>/g, (tag) =>
+    tag.match(allowedTags) ? tag : ""
+  );
+}
 
 export default function TextEditor({
   isEditing,

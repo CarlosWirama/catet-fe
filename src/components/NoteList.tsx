@@ -1,6 +1,6 @@
 import { type JSX } from "preact";
-import type { Note } from "../../types/note";
-import NoteBubble from "../NoteBubble";
+import type { Note } from "../types/note";
+import NoteBubble from "./NoteBubble";
 
 type NoteListProp = JSX.HTMLAttributes<HTMLDivElement> & {
   notes: Note[];
