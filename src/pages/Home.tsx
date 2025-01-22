@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import NoteList from "../components/NoteList";
 import TextEditor from "../components/TextEditor";
 import { Note } from "../types/note";
-// import Toolbar from './Toolbar';
+import Toolbar from "../components/Toolbar";
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -32,7 +32,7 @@ export default function Home() {
           onSaveNote={handleSaveNote}
           class="flex-auto min-h-min"
         />
-      	{/* <NoteList notes={notes} class="min-h-10" /> */}
+      	<NoteList notes={notes} class="min-h-10" />
       </main>
     </>
   );

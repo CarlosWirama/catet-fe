@@ -57,20 +57,21 @@ export default function TextEditor({
         {...props}
         ref={editorRef}
         contentEditable
+        // TODO do we still need this?
         // suppressContentEditableWarning
         onInput={handleInput}
         class={`"border border-inherit rounded bg-neutral-800 p-2.5 overflow-auto text-base" ${className}`}
         dangerouslySetInnerHTML={{ __html: content }}
         autofocus
       />
-      {/* <button
+      <button
         onClick={handleAddNote}
         role="button"
         type="button"
         class="my-5 rounded p-4 bg-emerald-600 hover:bg-emerald-500 transition-all text-xl"
       >
-        Note
-      </button> */}
+        Save
+      </button>
     </>
   );
 }
