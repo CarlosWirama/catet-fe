@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "preact/hooks";
-import Header from "../../components/Header";
-import NoteList from "../../components/NoteList";
-import TextEditor from "../../components/TextEditor";
-import { Note } from "../../types/note";
+import Header from "../components/Header";
+import NoteList from "../components/NoteList";
+import TextEditor from "../components/TextEditor";
+import { Note } from "../types/note";
 // import Toolbar from './Toolbar';
 
 export default function Home() {
