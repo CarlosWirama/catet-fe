@@ -60,7 +60,7 @@ export default function TextEditor({
         // TODO do we still need this?
         // suppressContentEditableWarning
         onInput={handleInput}
-        class={`"border border-inherit rounded bg-neutral-800 p-2.5 overflow-auto text-base" ${className}`}
+        class={`"border border-inherit rounded bg-neutral-800 p-2.5 text-base" ${className}`}
         dangerouslySetInnerHTML={{ __html: content }}
         autofocus
       />

@@ -24,15 +24,15 @@ export default function Home() {
   return (
     <>
       {/* <Header /> */}
-      <main class="m-5 flex-grow flex flex-col overflow-auto">
+      <main class="m-5 flex-grow flex flex-col overflow-hidden">
         {/* <img src={preactLogo} alt="Preact logo" height="160" width="160" /> */}
       	{/* <Toolbar /> */}
         <TextEditor
           isEditing={editIndex !== null}
           onSaveNote={handleSaveNote}
-          class="flex-auto min-h-min"
+          class="min-h-24 overflow-auto"
         />
-      	<NoteList notes={notes} class="min-h-10" />
+        <NoteList notes={notes} class="max-h-1/8 flex-shrink-0" />
       </main>
     </>
   );
