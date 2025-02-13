@@ -1,28 +1,50 @@
 import { useState, useEffect, useCallback } from "preact/hooks";
-import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import NoteList from "../components/NoteList";
 import TextEditor from "../components/TextEditor";
 import { Note } from "../types/note";
 import Toolbar from "../components/Toolbar";
 
 export default function Home() {
+  const [editorContent, setEditorContent] = useState("");
+  const [isNoteContentEdited, setIsNoteContentEdited] = useState(false);
   const [notes, setNotes] = useState<Note[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
-  // Load noteList from localStorage on mount
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Load saved editor and noteList from localStorage on mount
   useEffect(() => {
+    const savedContent = localStorage.getItem("textEditorContent") || "";
+    setEditorContent(savedContent);
+    
     const savedNotes = localStorage.getItem("noteList") || "[]";
     const parsedSavedNotes = JSON.parse(savedNotes);
     setNotes(parsedSavedNotes);
   }, []);
 
+  const toggleNoteList = useCallback(() => {
+    setIsSidebarOpen((isSidebarOpen) => !isSidebarOpen);
+  }, []);
+
+  // Handle input changes on the editor
+  const handleEditorChange = useCallback((content) => {
+    setEditorContent(content);
+  // Save content to localStorage whenever it changes
+    localStorage.setItem("textEditorContent", content);
+    setIsNoteContentEdited(true);
+  }, []);
+
   const handleSaveNote = useCallback(
-    (newContent: Note["content"]) => {
+    (editorContent: Note["content"]) => {
       const isNewNote = editIndex === null;
-      const updatedNote = {
-        content: newContent,
+      const updatedNote = isNewNote ? {
+        content: editorContent,
         createdAt: new Date(),
-        [isNewNote ? 'createdAt' : 'editedAt']: new Date(),
+      } : {
+        content: editorContent,
+        createdAt: notes[editIndex].createdAt,
+        editedAt: new Date(),
       };
       const updatedNotesList = isNewNote
         ? [updatedNote, ...notes]
@@ -36,22 +58,28 @@ export default function Home() {
       if (isNewNote) {
         setEditIndex(0);
       }
+      setIsNoteContentEdited(false);
     },
-    [notes]
+    [editIndex, notes]
   );
 
   return (
     <>
-      {/* <Header /> */}
       <main class="m-5 flex-grow flex flex-col overflow-hidden">
         {/* <img src={preactLogo} alt="Preact logo" height="160" width="160" /> */}
         {/* <Toolbar /> */}
-        <TextEditor
-          onSaveNote={handleSaveNote}
-          class="min-h-24 overflow-auto"
+        <TextEditor content={editorContent} onChange={handleEditorChange} />
+        <NoteList
+          notes={notes}
+          isOpen={isSidebarOpen}
+          onClose={toggleNoteList}
         />
-        <NoteList notes={notes} class="max-h-1/8 flex-shrink-0" />
       </main>
+      <Navbar
+        onMenuClick={toggleNoteList}
+        isNoteEdited={isNoteContentEdited}
+        onSaveNote={() => handleSaveNote(editorContent)}
+      />
     </>
   );
 }
