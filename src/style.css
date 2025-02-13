@@ -536,6 +536,9 @@
   .my-5 {
     margin-block: calc(var(--spacing) * 5);
   }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
   .block {
     display: block;
   }
@@ -554,6 +557,9 @@
   .table {
     display: table;
   }
+  .h-6 {
+    height: calc(var(--spacing) * 6);
+  }
   .h-screen {
     height: 100vh;
   }
@@ -563,26 +569,11 @@
   .max-h-1\/8 {
     max-height: calc(1/8 * 100%);
   }
-  .max-h-full {
-    max-height: 100%;
-  }
-  .max-h-screen {
-    max-height: 100vh;
-  }
-  .min-h-3 {
-    min-height: calc(var(--spacing) * 3);
-  }
-  .min-h-8 {
-    min-height: calc(var(--spacing) * 8);
-  }
   .min-h-24 {
     min-height: calc(var(--spacing) * 24);
   }
-  .min-h-min {
-    min-height: min-content;
-  }
-  .min-h-screen {
-    min-height: 100vh;
+  .w-6 {
+    width: calc(var(--spacing) * 6);
   }
   .w-max {
     width: max-content;
@@ -611,6 +602,9 @@
   .items-center {
     align-items: center;
   }
+  .justify-between {
+    justify-content: space-between;
+  }
   .justify-center {
     justify-content: center;
   }
@@ -633,14 +627,14 @@
   .bg-emerald-600 {
     background-color: var(--color-emerald-600);
   }
+  .bg-gray-800 {
+    background-color: var(--color-gray-800);
+  }
   .bg-green-900 {
     background-color: var(--color-green-900);
   }
   .bg-neutral-800 {
     background-color: var(--color-neutral-800);
-  }
-  .bg-white {
-    background-color: var(--color-white);
   }
   .bg-zinc-800 {
     background-color: var(--color-zinc-800);
@@ -653,6 +647,15 @@
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
+  }
+  .pr-2 {
+    padding-right: calc(var(--spacing) * 2);
+  }
+  .pr-2\.5 {
+    padding-right: calc(var(--spacing) * 2.5);
+  }
+  .pr-4 {
+    padding-right: calc(var(--spacing) * 4);
   }
   .text-right {
     text-align: right;
@@ -669,11 +672,23 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
+  .text-white {
+    color: var(--color-white);
+  }
   .italic {
     font-style: italic;
   }
   .underline {
     text-decoration-line: underline;
+  }
+  .opacity-40 {
+    opacity: 40%;
+  }
+  .opacity-50 {
+    opacity: 50%;
+  }
+  .opacity-70 {
+    opacity: 70%;
   }
   .outline {
     outline-style: var(--tw-outline-style);
