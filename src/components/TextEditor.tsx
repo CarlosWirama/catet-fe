@@ -3,12 +3,11 @@ import { useState, useEffect, useRef, useCallback } from "preact/hooks";
 import type { Note } from "../types/note";
 
 type TextEditorProps = JSX.HTMLAttributes<HTMLDivElement> & {
-  isEditing: boolean;
-  onSaveNote: (newNote: Partial<Note>) => void;
+  onSaveNote: (newNote: Note["content"]) => void;
 };
 
 function sanitizeContent(html: string) {
-  // Keep allowed tags and replace disallowed tags with div
+  // Keep allowed tags and remove disallowed tags
   const allowedTags = /<\/?(b|i|u|strong|em|p|br|ul|ol|li|div)[^>]*>/gi;
   return html.replace(/<[^>]+>/g, (tag) =>
     tag.match(allowedTags) ? tag : ""
@@ -16,7 +15,6 @@ function sanitizeContent(html: string) {
 }
 
 export default function TextEditor({
-  isEditing,
   onSaveNote,
   ...props
 }: TextEditorProps) {
@@ -45,10 +43,7 @@ export default function TextEditor({
   }, []);
 
   const handleAddNote = useCallback(() => {
-    onSaveNote({
-      content: editorRef.current.innerHTML,
-      ...(isEditing ? { editedAt: new Date() } : { createdAt: new Date() }),
-    });
+    onSaveNote(editorRef.current.innerHTML);
   }, []);
 
   return (

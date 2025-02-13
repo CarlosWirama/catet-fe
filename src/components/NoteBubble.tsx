@@ -14,7 +14,9 @@ export default function NoteBubble({
   const timestamp = (editedAt || createdAt).toDateString();
   return (
     <div {...props} class={`${containerClass} ${contentClass} ${className}`}>
-        <div>{content}</div>
+        <div
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
         <div class="text-right text-xs">{timestamp}</div>
     </div>
   );
