@@ -21,6 +21,10 @@ export default function Home() {
     const savedNotes = localStorage.getItem("noteList") || "[]";
     const parsedSavedNotes = JSON.parse(savedNotes);
     setNotes(parsedSavedNotes);
+    
+    const savedEditIndex = localStorage.getItem("editIndex");
+    const parsedEditIndex: number | null = savedEditIndex ? JSON.parse(savedEditIndex) : null;
+    setEditIndex(parsedEditIndex);
   }, []);
 
   const toggleNoteList = useCallback(() => {
@@ -57,6 +61,7 @@ export default function Home() {
       setNotes(updatedNotesList);
       if (isNewNote) {
         setEditIndex(0);
+        localStorage.setItem("editIndex", "0");
       }
       setIsNoteContentEdited(false);
     },

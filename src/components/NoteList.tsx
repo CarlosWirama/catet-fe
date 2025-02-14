@@ -1,5 +1,6 @@
 import { type JSX } from "preact";
 import type { Note } from "../types/note";
+import { svgPaths } from "../icons/svgPaths";
 import NoteBubble from "./NoteBubble";
 import IconButton from "./IconButton";
 
@@ -18,7 +19,7 @@ export default function NoteList({ notes, isOpen, onClose }: NoteListProp) {
     >
       <IconButton
         onClick={onClose}
-        svgPath="M6 18L18 6M6 6l12 12"
+        svgPath={svgPaths.x}
         className="absolute top-4 right-4"
       />
       <div class="rounded bg-zinc-800 p-2.5 text-base">
