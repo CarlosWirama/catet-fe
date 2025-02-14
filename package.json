@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "tailwindcss": "tailwindcss -o ./src/style.css --watch",
-    "dev": "concurrently --kill-others \"vite\" \"npm run tailwindcss\"",
+    "tailwindcss": "tailwindcss -o ./src/style.css",
+    "tailwindcsswatch": "tailwindcss -o ./src/style.css --watch",
+    "dev": "concurrently --kill-others \"vite\" \"npm run tailwindcsswatch\"",
     "vite": "vite",
     "build": "vite build",
     "preview": "vite preview"
