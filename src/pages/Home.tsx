@@ -14,7 +14,6 @@ export default function Home() {
     setIsNoteListOpen,
   } = useEditorContext();
 
-
   // Load saved editor and noteList from localStorage on mount
   useEffect(() => {
     const savedContent = localStorage.getItem("textEditorContent") || "";
@@ -45,9 +44,7 @@ export default function Home() {
           onClose={toggleNoteList}
         />
       </main>
-      <Navbar
-        onMenuClick={toggleNoteList}
-      />
+      <Navbar onMenuClick={toggleNoteList} />
     </>
   );
 }

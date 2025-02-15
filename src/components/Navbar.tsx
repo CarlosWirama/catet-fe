@@ -21,7 +21,6 @@ export default function Navbar({ onMenuClick }) {
     setIsNoteListOpen,
   } = useEditorContext();
 
-  
   const handleSaveNote = useCallback(
     (editorContent: Note["content"]) => {
       const isNewNote = editIndex === null;
@@ -60,21 +59,19 @@ export default function Navbar({ onMenuClick }) {
     localStorage.setItem("editIndex", "");
     setEditIndex(null);
   }, [setEditorContent, setIsNoteContentEdited, setEditIndex]);
-  
+
   return (
     <nav class="flex items-center justify-between p-2 bg-gray-800 text-white">
-      <IconButton
-        onClick={handleClearNote}
-        svgPath={svgPaths.x}
-      />
-      <IconButton
-        onClick={onMenuClick}
-        svgPath={svgPaths.menu}
-      />
+      <IconButton onClick={handleClearNote} svgPath={svgPaths.x} />
+      <IconButton onClick={onMenuClick} svgPath={svgPaths.menu} />
       <IconButton
         onClick={() => handleSaveNote(editorContent)}
         svgPath={svgPaths.save}
-        class={`${isNoteContentEdited ? 'bg-emerald-600 hover:bg-emerald-500 cursor-pointer' : 'text-gray-600'} transition-all text-xl shadow-lg`}
+        class={`${
+          isNoteContentEdited
+            ? "bg-emerald-600 hover:bg-emerald-500 cursor-pointer"
+            : "text-gray-600"
+        } transition-all text-xl shadow-lg`}
       />
     </nav>
   );
