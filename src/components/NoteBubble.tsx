@@ -58,7 +58,7 @@ export default function NoteBubble({
         <div class="text-right text-xs mt-2 opacity-40">{timestamp}</div>
       </div>
       {isMenuVisible && (
-        <div class="absolute top-0 left-0 w-full h-full bg-black/40 flex items-end justify-center">
+        <div class="absolute top-0 left-0 w-full h-full bg-black/40 flex items-end justify-start">
           <div class="bg-gray-800 p-2 rounded shadow-lg flex space-x-2">
             <IconButton onClick={handleEdit} svgPath={svgPaths.edit} />
             <IconButton onClick={handleDelete} svgPath={svgPaths.delete} />

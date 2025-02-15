@@ -67,11 +67,7 @@ export default function Navbar({ onMenuClick }) {
       <IconButton
         onClick={() => handleSaveNote(editorContent)}
         svgPath={svgPaths.save}
-        class={`${
-          isNoteContentEdited
-            ? "bg-emerald-600 hover:bg-emerald-500 cursor-pointer"
-            : "text-gray-600"
-        } transition-all text-xl shadow-lg`}
+        disabled={!isNoteContentEdited}
       />
     </nav>
   );
