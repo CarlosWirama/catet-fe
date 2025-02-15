@@ -14,7 +14,7 @@ export default function NoteList({ notes, isOpen, onClose }: NoteListProp) {
   return (
     <div
       class={`fixed top-0 left-0 h-full w-full transition-transform transform ${
-        isOpen ? 'translate-y-0' : 'translate-y-full'
+        isOpen ? "translate-y-0" : "translate-y-full"
       }`}
     >
       <IconButton
@@ -23,7 +23,9 @@ export default function NoteList({ notes, isOpen, onClose }: NoteListProp) {
         className="absolute top-4 right-4"
       />
       <div class="rounded bg-zinc-800 p-2.5 text-base">
-        {notes.map((note) => <NoteBubble {...note} />)}
+        {notes.map((note) => (
+          <NoteBubble {...note} />
+        ))}
       </div>
     </div>
   );
