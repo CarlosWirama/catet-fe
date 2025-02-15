@@ -30,11 +30,14 @@ export default function NoteBubble({
 
   // TODO use id instead of content
   const handleEdit = useCallback(() => {
-    setEditIndex(notes.findIndex((note) => note.content === content));
-    setEditorContent(
-      notes.find((note) => note.content === content)?.content || ""
-    );
+    const index = notes.findIndex((note) => note.content === content)
+    setEditIndex(index);
+    const content = notes.find((note) => note.content === content)?.content || ""
+    setEditorContent(content);
     setIsNoteListOpen(false);
+    
+    localStorage.setItem("textEditorContent", JSON.stringify(content));
+    localStorage.setItem("editIndex", index.toString());
   }, [content, notes, setEditIndex, setEditorContent]);
 
   const handleDelete = useCallback(() => {
