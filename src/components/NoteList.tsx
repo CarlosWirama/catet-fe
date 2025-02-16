@@ -1,19 +1,22 @@
-import { type JSX } from "preact";
 import type { Note } from "../types/note";
 import NoteBubble from "./NoteBubble";
 
-type NoteListProp = JSX.HTMLAttributes<HTMLDivElement> & {
+interface NoteListProp {
   notes: Note[];
-};
+  isOpen: boolean;
+}
 
-export default function NoteList({ notes, ...props }: NoteListProp) {
-  const className = props.className ?? props.class ?? "";
-
-  const containerClass = "rounded";
-  const contentClass = "bg-zinc-800 p-2.5 overflow-auto text-base";
+export default function NoteList({ notes, isOpen }: NoteListProp) {
+  const transitionClass = `transition-transform transform ${
+    isOpen ? "translate-y-0" : "translate-y-full"
+  }`;
   return (
-    <div {...props} class={`${containerClass} ${contentClass} ${className}`}>
-      {notes.map((note) => <NoteBubble {...note} />)}
+    <div
+      class={`absolute bg-gray-900 top-0 left-0 h-full w-full px-5 overflow-auto ${transitionClass}`}
+    >
+      {notes.map((note) => (
+        <NoteBubble {...note} />
+      ))}
     </div>
   );
 }

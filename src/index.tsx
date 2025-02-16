@@ -6,17 +6,20 @@ import {
   prerender as ssr,
 } from "preact-iso";
 
+import { EditorProvider } from "./context/EditorContext";
 import Home from "./pages/Home";
 import { NotFound } from "./pages/_404";
 
 export function App() {
   return (
-    <LocationProvider>
-      <Router>
-        <Route path="/" component={Home} />
-        <Route default component={NotFound} />
-      </Router>
-    </LocationProvider>
+    <EditorProvider>
+      <LocationProvider>
+        <Router>
+          <Route path="/" component={Home} />
+          <Route default component={NotFound} />
+        </Router>
+      </LocationProvider>
+    </EditorProvider>
   );
 }
 

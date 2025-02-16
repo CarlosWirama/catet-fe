@@ -1,39 +1,36 @@
-import { useState, useEffect, useCallback } from "preact/hooks";
-import Header from "../components/Header";
+import { useEffect } from "preact/hooks";
+import Navbar from "../components/Navbar";
 import NoteList from "../components/NoteList";
 import TextEditor from "../components/TextEditor";
-import { Note } from "../types/note";
-// import Toolbar from './Toolbar';
+import { useEditorContext } from "../context/EditorContext";
 
 export default function Home() {
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const { setEditorContent, notes, setNotes, setEditIndex, isNoteListOpen } =
+    useEditorContext();
 
+  // Load saved editor and noteList from localStorage on mount
   useEffect(() => {
-    setNotes([
-      { content: "TODO", createdAt: new Date() },
-      { content: "m", createdAt: new Date() },
-      { content: "NoteList", createdAt: new Date() },
-    ]);
-  }, []);
+    const savedContent = localStorage.getItem("textEditorContent") || "";
+    setEditorContent(savedContent);
 
-  const handleSaveNote = useCallback((newNote: Note) => {
-    setNotes(notes => [newNote, ...notes]);
-  }, []);
+    const savedNotes = localStorage.getItem("noteList") || "[]";
+    const parsedSavedNotes = JSON.parse(savedNotes);
+    setNotes(parsedSavedNotes);
+
+    const savedEditIndex = localStorage.getItem("editIndex");
+    const parsedEditIndex: number | null = savedEditIndex
+      ? JSON.parse(savedEditIndex)
+      : null;
+    setEditIndex(parsedEditIndex);
+  }, [setEditorContent, setNotes, setEditIndex]);
 
   return (
     <>
-      {/* <Header /> */}
-      <main class="m-5 flex-grow flex flex-col overflow-auto">
-        {/* <img src={preactLogo} alt="Preact logo" height="160" width="160" /> */}
-      	{/* <Toolbar /> */}
-        <TextEditor
-          isEditing={editIndex !== null}
-          onSaveNote={handleSaveNote}
-          class="flex-auto min-h-min"
-        />
-      	{/* <NoteList notes={notes} class="min-h-10" /> */}
+      <main class="relative flex-grow flex flex-col overflow-hidden">
+        <TextEditor />
+        <NoteList notes={notes} isOpen={isNoteListOpen} />
       </main>
+      <Navbar />
     </>
   );
 }
