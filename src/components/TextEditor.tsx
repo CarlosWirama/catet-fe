@@ -36,7 +36,7 @@ export default function TextEditor() {
       ref={editorRef}
       contentEditable
       onInput={handleInput}
-      class="border border-inherit rounded bg-neutral-800 h-full p-2.5 text-base overflow-auto"
+      class="m-5 border border-inherit rounded bg-neutral-800 h-full p-2.5 text-base overflow-auto"
       dangerouslySetInnerHTML={{ __html: editorContent }}
       autofocus
     />

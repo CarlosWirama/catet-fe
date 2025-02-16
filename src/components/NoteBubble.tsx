@@ -10,8 +10,15 @@ export default function NoteBubble({
   createdAt,
   editedAt,
 }: JSX.HTMLAttributes<HTMLDivElement> & Note) {
-  const { notes, setNotes, setEditIndex, setEditorContent, setIsNoteListOpen } =
-    useEditorContext();
+  const {
+    notes,
+    setNotes,
+    setEditIndex,
+    setEditorContent,
+    setIsNoteListOpen,
+    isNoteContentEdited,
+    handleSaveNote,
+  } = useEditorContext();
 
   const timestamp = new Date(editedAt || createdAt).toDateString();
 
@@ -30,15 +37,34 @@ export default function NoteBubble({
 
   // TODO use id instead of content
   const handleEdit = useCallback(() => {
-    const index = notes.findIndex((note) => note.content === content)
-    setEditIndex(index);
-    const content = notes.find((note) => note.content === content)?.content || ""
-    setEditorContent(content);
-    setIsNoteListOpen(false);
-    
-    localStorage.setItem("textEditorContent", JSON.stringify(content));
-    localStorage.setItem("editIndex", index.toString());
-  }, [content, notes, setEditIndex, setEditorContent]);
+    if (isNoteContentEdited) {
+      const shouldSave = confirm(
+        "Do you want to save the current note before editing another one?"
+      );
+      if (shouldSave) {
+        handleSaveNote();
+      } else {
+        setIsNoteListOpen(false);
+        return;
+      }
+    }
+      const index = notes.findIndex((note) => note.content === content);
+      setEditIndex(index);
+      const newContent =
+        notes.find((note) => note.content === content)?.content || "";
+      setEditorContent(newContent);
+      setIsNoteListOpen(false);
+
+      localStorage.setItem("textEditorContent", JSON.stringify(content));
+      localStorage.setItem("editIndex", index.toString());
+  }, [
+    content,
+    notes,
+    setEditIndex,
+    setEditorContent,
+    isNoteContentEdited,
+    handleSaveNote,
+  ]);
 
   const handleDelete = useCallback(() => {
     setNotes(notes.filter((note) => note.content !== content));
@@ -47,13 +73,13 @@ export default function NoteBubble({
 
   return (
     <div
-      class="my-5 w-max rounded relative"
+      class="my-5 w-max relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div class="bg-green-900 p-2.5 text-base flex flex-col">
+      <div class="rounded bg-green-900 p-2.5 text-base flex flex-col">
         <div class="pr-2.5" dangerouslySetInnerHTML={{ __html: content }}></div>
         <div class="text-right text-xs mt-2 opacity-40">{timestamp}</div>
       </div>
