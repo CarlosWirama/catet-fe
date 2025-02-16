@@ -8,8 +8,8 @@ export default function Navbar() {
   const { url } = useLocation();
 
   const {
-    setEditorContent,
-    setEditIndex,
+    handleSetEditorContent,
+    handleSetEditIndex,
     isNoteContentEdited,
     setIsNoteContentEdited,
     isNoteListOpen,
@@ -18,12 +18,10 @@ export default function Navbar() {
   } = useEditorContext();
 
   const handleClearNote = useCallback(() => {
-    setEditorContent("");
+    handleSetEditorContent("");
     setIsNoteContentEdited(false);
-    localStorage.setItem("textEditorContent", "");
-    localStorage.setItem("editIndex", "");
-    setEditIndex(null);
-  }, [setEditorContent, setIsNoteContentEdited, setEditIndex]);
+    handleSetEditIndex(null);
+  }, [handleSetEditorContent, setIsNoteContentEdited, handleSetEditIndex]);
 
   const handleNoteListClick = useCallback(() => {
     setIsNoteListOpen((isOpen: boolean) => !isOpen);

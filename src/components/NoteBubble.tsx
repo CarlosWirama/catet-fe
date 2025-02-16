@@ -12,9 +12,9 @@ export default function NoteBubble({
 }: JSX.HTMLAttributes<HTMLDivElement> & Note) {
   const {
     notes,
-    setNotes,
-    setEditIndex,
-    setEditorContent,
+    handleSetNotes,
+    handleSetEditIndex,
+    handleSetEditorContent,
     setIsNoteListOpen,
     isNoteContentEdited,
     handleSaveNote,
@@ -41,29 +41,24 @@ export default function NoteBubble({
       }
     }
     const index = notes.findIndex((note) => note.content === content);
-    setEditIndex(index);
-    const newContent =
-      notes.find((note) => note.content === content)?.content || "";
-    setEditorContent(newContent);
+    handleSetEditIndex(index);
+    handleSetEditorContent(content);
     setIsNoteListOpen(false);
-
-    localStorage.setItem("textEditorContent", content);
-    localStorage.setItem("editIndex", index.toString());
   }, [
     content,
     notes,
-    setEditIndex,
-    setEditorContent,
+    handleSetEditIndex,
+    handleSetEditorContent,
     isNoteContentEdited,
     handleSaveNote,
   ]);
 
   const handleDelete = useCallback(() => {
     const updatedNotesList = notes.filter((note) => note.content !== content);
-    setNotes(updatedNotesList);
-    localStorage.setItem("noteList", JSON.stringify(updatedNotesList));
-    setEditIndex(null);
-  }, [content, notes, setNotes]);
+    handleSetNotes(updatedNotesList);
+    handleSetEditorContent("");
+    handleSetEditIndex(null);
+  }, [content, notes, handleSetNotes, handleSetEditIndex]);
 
   return (
     <div
