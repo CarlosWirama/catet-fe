@@ -14,8 +14,8 @@ export default function NoteList({ notes, isOpen }: NoteListProp) {
     <div
       class={`absolute bg-gray-900 top-0 left-0 h-full w-full px-5 overflow-auto ${transitionClass}`}
     >
-      {notes.map((note) => (
-        <NoteBubble {...note} />
+      {notes.map((note, index) => (
+        <NoteBubble {...note} key={`${index}${note.createdAt}`} />
       ))}
     </div>
   );

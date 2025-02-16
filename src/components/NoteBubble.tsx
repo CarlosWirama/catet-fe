@@ -23,17 +23,9 @@ export default function NoteBubble({
   const timestamp = new Date(editedAt || createdAt).toDateString();
 
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [timerId, setTimerId] = useState<NodeJS.Timeout>(null);
 
-  const handleLongPress = () => setIsMenuVisible(true);
-  const handleMouseEnter = () => setIsMenuVisible(true);
+  const handleClick = () => setIsMenuVisible(true);
   const handleMouseLeave = () => setIsMenuVisible(false);
-
-  const handleTouchStart = () => {
-    const newTimer = setTimeout(handleLongPress, 1000);
-    setTimerId(newTimer);
-  };
-  const handleTouchEnd = () => clearTimeout(timerId);
 
   // TODO use id instead of content
   const handleEdit = useCallback(() => {
@@ -48,15 +40,15 @@ export default function NoteBubble({
         return;
       }
     }
-      const index = notes.findIndex((note) => note.content === content);
-      setEditIndex(index);
-      const newContent =
-        notes.find((note) => note.content === content)?.content || "";
-      setEditorContent(newContent);
-      setIsNoteListOpen(false);
+    const index = notes.findIndex((note) => note.content === content);
+    setEditIndex(index);
+    const newContent =
+      notes.find((note) => note.content === content)?.content || "";
+    setEditorContent(newContent);
+    setIsNoteListOpen(false);
 
-      localStorage.setItem("textEditorContent", JSON.stringify(content));
-      localStorage.setItem("editIndex", index.toString());
+    localStorage.setItem("textEditorContent", content);
+    localStorage.setItem("editIndex", index.toString());
   }, [
     content,
     notes,
@@ -67,23 +59,24 @@ export default function NoteBubble({
   ]);
 
   const handleDelete = useCallback(() => {
-    setNotes(notes.filter((note) => note.content !== content));
+    const updatedNotesList = notes.filter((note) => note.content !== content);
+    setNotes(updatedNotesList);
+    localStorage.setItem("noteList", JSON.stringify(updatedNotesList));
     setEditIndex(null);
   }, [content, notes, setNotes]);
 
   return (
     <div
       class="my-5 w-max relative"
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onClick={handleClick}
+      onBlur={() => setIsMenuVisible(false)}
     >
       <div class="rounded bg-green-900 p-2.5 text-base flex flex-col">
         <div class="pr-2.5" dangerouslySetInnerHTML={{ __html: content }}></div>
         <div class="text-right text-xs mt-2 opacity-40">{timestamp}</div>
       </div>
-      {isMenuVisible && (
+      {isMenuVisible ? (
         <div class="absolute top-0 left-0 w-full h-full bg-black/40 flex items-end justify-start">
           <div class="bg-gray-800 p-2 rounded shadow-lg flex space-x-2">
             <IconButton onClick={handleEdit} svgPath={svgPaths.edit} />
@@ -99,7 +92,7 @@ export default function NoteBubble({
             /> */}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
