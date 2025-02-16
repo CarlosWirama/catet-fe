@@ -1,14 +1,10 @@
-import type { Note } from "../types/note";
+import { useEditorContext } from "../context/EditorContext";
 import NoteBubble from "./NoteBubble";
 
-interface NoteListProp {
-  notes: Note[];
-  isOpen: boolean;
-}
-
-export default function NoteList({ notes, isOpen }: NoteListProp) {
+export default function NoteList() {
+  const { notes, isNoteListOpen } = useEditorContext();
   const transitionClass = `transition-transform transform ${
-    isOpen ? "translate-y-0" : "translate-y-full"
+    isNoteListOpen ? "translate-y-0" : "translate-y-full"
   }`;
   return (
     <div

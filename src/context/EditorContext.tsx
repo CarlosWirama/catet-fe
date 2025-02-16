@@ -1,8 +1,9 @@
 import { createContext } from "preact";
 import {
-  useState,
   useContext,
   useCallback,
+  useEffect,
+  useState,
   type Dispatch,
   type StateUpdater,
 } from "preact/hooks";
@@ -10,11 +11,11 @@ import type { Note } from "../types/note";
 
 interface EditorContextProps {
   editorContent: string;
-  setEditorContent: Dispatch<StateUpdater<string>>;
+  handleSetEditorContent: (content: string) => void;
   notes: Note[];
-  setNotes: Dispatch<StateUpdater<Note[]>>;
+  handleSetNotes: (notes: Note[]) => void;
   editIndex: number | null;
-  setEditIndex: Dispatch<StateUpdater<number | null>>;
+  handleSetEditIndex: (index: number | null) => void;
   isNoteContentEdited: boolean;
   setIsNoteContentEdited: Dispatch<StateUpdater<boolean>>;
   isNoteListOpen: boolean;
@@ -30,6 +31,38 @@ export const EditorProvider = ({ children }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [isNoteListOpen, setIsNoteListOpen] = useState(false);
+
+  // Load saved editor and noteList from localStorage on mount
+  useEffect(function loadInitiallySavedData() {
+    const savedContent = localStorage.getItem("editorContent") || "";
+    setEditorContent(savedContent);
+
+    const savedNotes = localStorage.getItem("noteList") || "[]";
+    const parsedSavedNotes = JSON.parse(savedNotes);
+    setNotes(parsedSavedNotes);
+
+    const savedEditIndex = localStorage.getItem("editIndex");
+    const parsedEditIndex: number | null = savedEditIndex
+      ? JSON.parse(savedEditIndex)
+      : null;
+    setEditIndex(parsedEditIndex);
+  }, []);
+
+  const handleSetEditorContent = useCallback((content: string) => {
+    setEditorContent(content);
+    // Save content to localStorage whenever it changes
+    localStorage.setItem("editorContent", content);
+  }, []);
+
+  const handleSetEditIndex = useCallback((index: number) => {
+    setEditIndex(index);
+    localStorage.setItem("editIndex", index?.toString() ?? null);
+  }, []);
+
+  const handleSetNotes = useCallback((notesList: Note[]) => { 
+    setNotes(notesList);
+    localStorage.setItem("noteList", JSON.stringify(notesList));
+  }, []);
 
   const handleSaveNote = useCallback(() => {
     const isNewNote = editIndex === null;
@@ -50,11 +83,9 @@ export const EditorProvider = ({ children }) => {
           updatedNote,
           ...notes.slice(editIndex + 1),
         ];
-    localStorage.setItem("noteList", JSON.stringify(updatedNotesList));
-    setNotes(updatedNotesList);
+    handleSetNotes(updatedNotesList);
     if (isNewNote) {
-      setEditIndex(0);
-      localStorage.setItem("editIndex", "0");
+      handleSetEditIndex(0);
     }
     setIsNoteContentEdited(false);
   }, [editIndex, editorContent, notes]);
@@ -63,11 +94,11 @@ export const EditorProvider = ({ children }) => {
     <EditorContext.Provider
       value={{
         editorContent,
-        setEditorContent,
+        handleSetEditorContent,
         notes,
-        setNotes,
+        handleSetNotes,
         editIndex,
-        setEditIndex,
+        handleSetEditIndex,
         isNoteContentEdited,
         setIsNoteContentEdited,
         isNoteListOpen,

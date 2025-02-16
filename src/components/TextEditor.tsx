@@ -9,18 +9,16 @@ function sanitizeContent(html: string) {
 
 export default function TextEditor() {
   const editorRef = useRef(null);
-  const { editorContent, setEditorContent, setIsNoteContentEdited } =
+  const { editorContent, handleSetEditorContent, setIsNoteContentEdited } =
     useEditorContext();
 
   // Handle input changes on the editor
   const handleEditorChange = useCallback(
     (content) => {
-      setEditorContent(content);
-      // Save content to localStorage whenever it changes
-      localStorage.setItem("textEditorContent", content);
+      handleSetEditorContent(content);
       setIsNoteContentEdited(true);
     },
-    [setEditorContent, setIsNoteContentEdited]
+    [handleSetEditorContent, setIsNoteContentEdited]
   );
 
   // Handle input changes
