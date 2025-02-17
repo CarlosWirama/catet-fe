@@ -13,9 +13,13 @@ export default function Navbar({ class: className = "" }) {
     isNoteContentEdited,
     setIsNoteContentEdited,
     isNoteListOpen,
-    setIsNoteListOpen,
     handleSaveNote,
+    setIsNoteListOpen,
   } = useEditorContext();
+
+  const handleNoteListClick = useCallback(() => {
+    setIsNoteListOpen((isOpen: boolean) => !isOpen);
+  }, [setIsNoteListOpen]);
 
   const handleClearNote = useCallback(() => {
     handleSetEditorContent("");
@@ -23,12 +27,8 @@ export default function Navbar({ class: className = "" }) {
     handleSetEditIndex(null);
   }, [handleSetEditorContent, setIsNoteContentEdited, handleSetEditIndex]);
 
-  const handleNoteListClick = useCallback(() => {
-    setIsNoteListOpen((isOpen: boolean) => !isOpen);
-  }, [setIsNoteListOpen]);
-
   return (
-    <nav
+    <header
       class={`flex items-center justify-between p-2 bg-gray-800 ${className}`}
     >
       <IconButton
@@ -36,6 +36,7 @@ export default function Navbar({ class: className = "" }) {
         svgPath={svgPaths.x}
         disabled={isNoteListOpen}
       />
+
       <IconButton
         onClick={handleNoteListClick}
         svgPath={svgPaths.menu}
@@ -46,6 +47,6 @@ export default function Navbar({ class: className = "" }) {
         svgPath={svgPaths.save}
         disabled={!isNoteContentEdited}
       />
-    </nav>
+    </header>
   );
 }

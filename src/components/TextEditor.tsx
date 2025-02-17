@@ -7,7 +7,7 @@ function sanitizeContent(html: string) {
   return html.replace(/<[^>]+>/g, (tag) => (tag.match(allowedTags) ? tag : ""));
 }
 
-export default function TextEditor() {
+export default function TextEditor({ class: className = "" }) {
   const editorRef = useRef(null);
   const { editorContent, handleSetEditorContent, setIsNoteContentEdited } =
     useEditorContext();
@@ -34,7 +34,7 @@ export default function TextEditor() {
       ref={editorRef}
       contentEditable
       onInput={handleInput}
-      class="m-5 border border-inherit rounded bg-neutral-800 h-full p-2.5 text-base overflow-auto"
+      class={`border border-inherit rounded bg-neutral-800 p-2.5 text-base overflow-auto ${className}`}
       dangerouslySetInnerHTML={{ __html: editorContent }}
       autofocus
     />
